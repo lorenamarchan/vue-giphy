@@ -17,10 +17,15 @@ export default {
     return {}
   },
   methods: {
-    changeLogged() {
-      //this.$router.push('/'})
-      //this.$router.push({ path: '/' })
-      this.$router.push({ name: 'Home' })
+    changeLogged(data) {
+      try {
+        this.$store.dispatch('auth/login', data)
+        //this.$router.push('/'})
+        //this.$router.push({ path: '/' })
+        this.$router.push({ name: 'Home' })
+      } catch (err) {
+        console.error({ err })
+      }
     },
   },
 }

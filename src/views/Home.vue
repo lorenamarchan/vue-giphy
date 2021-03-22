@@ -2,7 +2,7 @@
   <div id="home">
     <section>
       <GifFilters
-        @filter="searchGif"
+        @filter="searchData"
         @change-limit="updateLimit"
         :limit-number="limitNumber"
       />
@@ -11,7 +11,7 @@
       <!-- sin gifs-list y con attr title -->
       <GifsList title="Trendig Gifs" />
       <!-- con gifs-list y con title como slot -->
-      <GifsList :gifs-list="trendingGifs" @select-gif="goToDetail">
+      <GifsList :gifs-list="allGifs" @select-gif="goToDetail">
         <h2>Otro titulo:</h2>
       </GifsList>
     </section>
@@ -21,6 +21,7 @@
 <script>
 import GifFilters from '@/components/GifFilters.vue'
 import GifsList from '@/components/GifsList.vue'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'Home',
   components: {
@@ -29,8 +30,6 @@ export default {
   },
   data() {
     return {
-      trendingGifs: null,
-      foundGifs: null,
       limitNumber: 10,
       isLogged: false,
     }
@@ -38,23 +37,22 @@ export default {
   created() {
     this.loadData()
   },
+  computed: {
+    ...mapState('gifs', ['allGifs', 'foundGifs']),
+  },
   methods: {
-    async loadData() {
+    //...mapActions('gifs', ['listGifs']),
+    ...mapActions({
+      listGifs: 'gifs/listGifs',
+      searchGifs: 'gifs/searchGifs',
+    }),
+    loadData() {
       const params = `&limit=${this.limitNumber}`
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=4z4OuOSfN7HPOu4CJCNEYbBoOJCxrfYB${params}`
-      )
-      const { data } = await response.json()
-
-      this.trendingGifs = data
+      this.listGifs(params)
     },
-    async searchGif(searchText) {
+    searchData(searchText) {
       const params = `&limit=${this.limitNumber}&q=${searchText}`
-      const response = await fetch(
-        `https://api.giphy.com/v1/gifs/search?api_key=4z4OuOSfN7HPOu4CJCNEYbBoOJCxrfYB${params}`
-      )
-      const { data } = await response.json()
-      this.foundGifs = data
+      this.searchGifs(params)
     },
     updateLimit(limit) {
       this.limitNumber = limit
@@ -63,7 +61,6 @@ export default {
       this.isLogged = true
     },
     goToDetail({ id, title }) {
-      console.log(id, title)
       this.$router.push({ name: 'Detail', params: { id, title } })
     },
   },

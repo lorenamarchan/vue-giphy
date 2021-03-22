@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import store from '../store'
 Vue.use(VueRouter)
 
 const routes = [
@@ -8,6 +8,9 @@ const routes = [
     path: '/',
     name: 'Home',
     component: () => import('@/views/Home.vue'),
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/login',
@@ -48,10 +51,9 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 })
-const logged = true
 router.beforeEach((to, from, next) => {
   if (to.matched.some(r => r.meta.requiresAuth)) {
-    if (logged) {
+    if (store.state.auth.userData?.isLogged) {
       next()
     } else {
       next('/login')

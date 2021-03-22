@@ -13,7 +13,9 @@
       @input="changeLimit"
       @keyup-enter="search"
     />
-    <base-button :disabled="!searchText" theme="primary">Buscar</base-button>
+    <base-button :disabled="!searchText" theme="primary" @click="search"
+      >Buscar</base-button
+    >
   </div>
 </template>
 <script>
@@ -51,5 +53,12 @@ export default {
 <style lang="scss">
 #filters {
   display: flex;
+  button {
+    cursor: pointer;
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <input
-    v-model="inputText"
+    v-model="inputValue"
     v-bind="$props"
     class="base-input"
     @input="$emit('input', inputText)"
@@ -27,6 +27,16 @@ export default {
     placeholder: {
       type: String,
       default: '',
+    },
+  },
+  computed: {
+    inputValue: {
+      get() {
+        return this.value
+      },
+      set(newValue) {
+        this.inputText = newValue
+      },
     },
   },
   data() {

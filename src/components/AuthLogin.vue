@@ -4,6 +4,11 @@
     <form @submit.prevent="onSubmit">
       <div>
         <base-input
+          v-model="formName"
+          name="nombre"
+          placeholder="Introduce tu nombre"
+        />
+        <base-input
           v-model="form.email"
           type="email"
           name="email"
@@ -37,9 +42,19 @@ export default {
       },
     }
   },
+  computed: {
+    formName: {
+      get() {
+        return this.$store.state.auth.userData.name
+      },
+      set(newValue) {
+        this.$store.commit('auth/updateUserName', newValue)
+      },
+    },
+  },
   methods: {
     onSubmit() {
-      this.$emit('login', { ...this.form })
+      this.$emit('login', { ...this.form, name: this.formName })
     },
   },
 }
