@@ -15,14 +15,14 @@ export default {
   actions: {
     async listGifs({ commit }, params) {
       const response = await fetch(
-        `https://api.giphy.com/v1/gifs/trending?api_key=fK3PazXSjrX6cc7si4c0KTTTBabTlwzH${params}`
+        `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.VUE_APP_API_KEY_GIPHY}${params}`
       )
       const { data } = await response.json()
       commit('setAllGifs', data)
     },
     async searchGifs({ commit }, params) {
       const response = await fetch(
-        `https://api.giphy.com/v1/gifs/search?api_key=fK3PazXSjrX6cc7si4c0KTTTBabTlwzH${params}`
+        `https://api.giphy.com/v1/gifs/search?api_key=${process.env.VUE_APP_API_KEY_GIPHY}${params}`
       )
       const { data } = await response.json()
       commit('setFoundGifs', data)

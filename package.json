@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode development",
     "test:unit": "vue-cli-service test:unit",
-    "test:watch": "vue-cli-service test:unit --watch",
+    "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "lint:fix": "vue-cli-service lint --fix"
+    "lint:fix": "vue-cli-service lint --fix",
+    "test:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@testing-library/vue": "^5.6.1",
     "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-e2e-cypress": "^4.5.12",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "^4.5.12",
     "@vue/cli-plugin-vuex": "^4.5.12",
